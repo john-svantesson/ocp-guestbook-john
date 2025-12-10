@@ -1,0 +1,61 @@
+name: Build & Deploy Guestbook
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          docker build -t frontend:${{ github.sha }} .
+
+      - name: Tag frontend image
+        run: |
+          docker tag frontend:${{ github.sha }} ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-frontend:${{ github.sha }}
+          docker tag frontend:${{ github.sha }} ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-frontend:latest
+
+      - name: Build backend
+        run: |
+          cd backend
+          docker build -t backend:${{ github.sha }} .
+
+      - name: Tag backend image
+        run: |
+          docker tag backend:${{ github.sha }} ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-backend:${{ github.sha }}
+          docker tag backend:${{ github.sha }} ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-backend:latest
+
+      - name: Login to GHCR
+        run: docker login --username john-svantesson --password ${{ secrets.GHCR_TOKEN }} ghcr.io
+
+      # Push
+      - name: Push images
+        run: |
+          docker push ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-frontend:${{ github.sha }}
+          docker push ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-frontend:latest
+          docker push ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-backend:${{ github.sha }}
+          docker push ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-backend:latest
+
+      # OpenShift
+      - name: oc login
+        run: oc login --token=${{ secrets.OCP_TOKEN }} --insecure-skip-tls-verify --server=https://api.devops24.cloud2.se:6443
+
+      - name: Select project
+        run: oc project ocp-guestbook-john
+
+      - name: Deploy everything
+        run: |
+          oc apply -f 1-postgres
+          oc apply -f 2-redis
+          oc apply -f 3-backend
+          oc apply -f 4-frontend
