@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
       - name: backend
-      # Laddas från det lokala OpenShift-registryt i CRC, därför används denna interna adress. Själva kan ju denna justeras
-        image: image-registry.openshift-image-registry.svc:5000/ocp-guestbook/guestbook-backend:latest
+        image: ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-backend:latest
         ports:
           - containerPort: 8080
         env:
