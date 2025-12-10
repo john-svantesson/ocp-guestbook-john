@@ -3,7 +3,6 @@ WORKDIR /opt/app-root/src
 
 COPY go.mod ./
 RUN go mod tidy
-COPY go.sum ./
 RUN go mod download
 
 COPY main.go .
