@@ -49,6 +49,13 @@ spec:
           - name: CACHE_ENABLED
             value: "true"
         # Kollar att backend lever och inte hängt sig. Om den slutar svara startas podden om.
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
         livenessProbe:
           httpGet:
             path: /health
