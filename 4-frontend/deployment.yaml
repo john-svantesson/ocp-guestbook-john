@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guestbook-frontend
+  labels:
+    app: guestbook
+    component: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: guestbook-frontend
+  template:
+    metadata:
+      labels:
+        app: guestbook-frontend
+    spec:
+      containers:
+      - name: nginx
+        image: default-route-openshift-image-registry.apps-crc.testing/ocp-guestbook/guestbook-frontend:latest
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always   # så den hämtar vår nya image direkt

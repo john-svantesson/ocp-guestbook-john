@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-data
+  labels:
+    app: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce          
+  storageClassName: crc-csi-hostpath-provisioner #Vanligtvis används nätverkslagring, 
+  # men i min lokala miljö funkar bara CRC:s lokala disk.
+  resources:
+    requests:
+      storage: 2Gi           

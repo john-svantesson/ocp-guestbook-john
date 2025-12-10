@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data
+  labels:
+    app: redis
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: crc-csi-hostpath-provisioner # Samma här som i postgres pvc.yaml
+  resources:
+    requests:
+      storage: 1Gi                     # 1 Gi räcker gott och väl för cachen i detta syfte

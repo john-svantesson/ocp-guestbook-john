@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  labels:
+    app: backend
+data:
+  # Backend-applikationen läser PORT som miljövariabel
+  # Default i koden är 8080, men vi sätter den explicit för tydlighet
+  PORT: "8080"

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+      # Laddas från det lokala OpenShift-registryt i CRC, därför används denna interna adress. Själva kan ju denna justeras
+        image: image-registry.openshift-image-registry.svc:5000/ocp-guestbook/guestbook-backend:latest
+        ports:
+          - containerPort: 8080
+        env:
+          - name: DB_HOST
+            value: postgres
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_USER
+            value: guestbook
+          - name: DB_NAME
+            value: guestbook
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: backend-secret
+                key: DB_PASSWORD
+          - name: REDIS_HOST
+            value: redis
+          - name: REDIS_PORT
+            value: "6379"
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: backend-secret
+                key: REDIS_PASSWORD
+          - name: PORT
+            value: "8080"
+          # Slår på cache-funktionen i backend så frontend kan visa HIT/MISS.
+          - name: CACHE_ENABLED
+            value: "true"
+        # Kollar att backend lever och inte hängt sig. Om den slutar svara startas podden om.
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 20
+          failureThreshold: 6
+          # Ser till att backend är redo innan trafik skickas in, annars väntar OpenShift.
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          failureThreshold: 12

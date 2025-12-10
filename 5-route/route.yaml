@@ -1,0 +1,14 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: guestbook-frontend
+spec:
+  to:
+    kind: Service
+    name: guestbook-frontend # Route skickar trafik till frontend-servicen i klustret
+  port:
+    targetPort: 8080
+  tls:
+    termination: Edge
+    insecureEdgeTerminationPolicy: Redirect
+    #All http-trafik skickas automatiskt till https
