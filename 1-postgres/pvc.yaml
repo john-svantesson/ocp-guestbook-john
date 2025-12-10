@@ -7,7 +7,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce          
-  storageClassName: crc-csi-hostpath-provisioner #Vanligtvis används nätverkslagring, 
+  # storageClassName: crc-csi-hostpath-provisioner #Vanligtvis används nätverkslagring, 
   # men i min lokala miljö funkar bara CRC:s lokala disk.
   resources:
     requests:
