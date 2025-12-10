@@ -1,7 +1,11 @@
 FROM registry.access.redhat.com/ubi10/go-toolset:10.0 AS builder
 WORKDIR /opt/app-root/src
-COPY go.mod go.sum ./
+
+COPY go.mod ./
+RUN go mod tidy
+COPY go.sum ./
 RUN go mod download
+
 COPY main.go .
 RUN go build -o guestbook-api .
 
