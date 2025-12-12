@@ -1,24 +1,38 @@
-name: Index.html update
+name: Frontend Fast Rebuild
 
 on:
   push:
     branches:
       - master
     paths:
-      - frontend/index.html
+      - 'frontend/index.html'
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
-  restart-frontend:
+  build-frontend-only:
     runs-on: ubuntu-22.04
     steps:
-      - name: OC Login
-        run: oc login --token=${{ secrets.OCP_TOKEN }} --insecure-skip-tls-verify --server=https://api.devops24.cloud2.se:6443
+      - uses: actions/checkout@v4
 
-      - name: Restart frontend
+      - name: Login to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u john-svantesson --password-stdin
+#Kräver att tjänsten redan är byggd, därför kan jag köra cache
+      - name: Build & push frontend with cache
         run: |
+          docker build \
+            --cache-from ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-frontend:latest \
+            -t ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-frontend:${{ github.sha }} \
+            -t ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-frontend:latest \
+            frontend
+
+          docker push ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-frontend:${{ github.sha }}
+          docker push ghcr.io/john-svantesson/ocp-guestbook-john/guestbook-frontend:latest
+
+      - name: New deployment
+        run: |
+          oc login --token=${{ secrets.OCP_TOKEN }} --server=https://api.devops24.cloud2.se:6443 --insecure-skip-tls-verify
           oc project ocp-guestbook-john
-          oc rollout restart deployment/guestbook-frontend
-          oc rollout status deployment/guestbook-frontend --timeout=60s
+          oc rollout latest deployment/guestbook-frontend
