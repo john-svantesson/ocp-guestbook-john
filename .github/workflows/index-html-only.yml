@@ -1,0 +1,24 @@
+name: Index.html update
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - frontend/index.html
+
+permissions:
+  contents: read
+
+jobs:
+  restart-frontend:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: OC Login
+        run: oc login --token=${{ secrets.OCP_TOKEN }} --insecure-skip-tls-verify --server=https://api.devops24.cloud2.se:6443
+
+      - name: Restart frontend
+        run: |
+          oc project ocp-guestbook-john
+          oc rollout restart deployment/guestbook-frontend
+          oc rollout status deployment/guestbook-frontend --timeout=60s
