@@ -7,6 +7,9 @@ Detta repo är en fortsättning på tidigare labb där jag driftsatte en gästbo
 - Redis
 - Route med TLS Edge-termination
 
+  <img width="898" height="843" alt="image" src="https://github.com/user-attachments/assets/f3688f3d-07fc-435d-9b51-403f694089ca" />
+
+
 Målet med denna uppgift var att helt automatisera bygg och driftsättning med GitHub Actions – inga manuella `oc`-kommandon efter första setup.
 
 ## Vad som gjordes
