@@ -30,7 +30,7 @@ Målet med denna uppgift var att helt automatisera bygg och driftsättning med G
 
 ## Resultat
 
-Vid varje push till `master` byggs, pushas och deployas hela applikationen automatiskt inom 3–5 minuter.
+Vid varje push till `master` byggs, pushas och deployas hela applikationen automatiskt.
 
 Gästboken är live och nås här:  
 https://guestbook-frontend-ocp-guestbook-john.apps.devops24.cloud2.se
