@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths-ignore:              
-      - 'frontend/index.html'     #För att hålla min actions separerade.
+      - 'frontend/index.html'  #För att hålla min actions separerade.
 permissions:
   contents: read
   packages: write
