@@ -1,3 +1,8 @@
+# Senaste redigeringarna
+
+Skapade en mer minimal action - den kräver att tjänsten körs.
+- Triggas vid ändring av index.html
+
 # OpenShift Guestbook – CI/CD med GitHub Actions
 
 Detta repo är en fortsättning på tidigare labb där jag driftsatte en gästbok med:
