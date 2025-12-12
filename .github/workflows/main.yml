@@ -6,6 +6,10 @@ on:
       - master
     paths-ignore:              
       - 'frontend/index.html'  #För att hålla min actions separerade.
+      - 'README.md'            #För att undvika att konstant köra actions vid mindre ändring inkluderar jag README.md + annat
+      - '.github/workflows/main.yml'
+      - 'index-html-only.yml'
+      
 permissions:
   contents: read
   packages: write
