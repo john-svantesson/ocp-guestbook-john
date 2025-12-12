@@ -35,4 +35,4 @@ jobs:
         run: |
           oc login --token=${{ secrets.OCP_TOKEN }} --server=https://api.devops24.cloud2.se:6443 --insecure-skip-tls-verify
           oc project ocp-guestbook-john
-          oc rollout latest deployment/guestbook-frontend
+          oc rollout restart deployment/guestbook-frontend
