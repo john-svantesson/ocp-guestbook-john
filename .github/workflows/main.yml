@@ -59,3 +59,4 @@ jobs:
           oc apply -f 2-redis
           oc apply -f 3-backend
           oc apply -f 4-frontend
+          oc apply -f 5-route
