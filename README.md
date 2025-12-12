@@ -1,4 +1,4 @@
-# OpenShift Guestbook – Full CI/CD med GitHub Actions
+# OpenShift Guestbook – CI/CD med GitHub Actions
 
 Detta repo är en fortsättning på tidigare labb där jag driftsatte en gästbok med:
 - Go-backend
