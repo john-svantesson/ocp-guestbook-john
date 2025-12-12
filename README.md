@@ -1,7 +1,7 @@
 # Senaste redigeringarna
 
-Skapade en mer minimal action - den kräver att tjänsten körs.
-- Triggas vid ändring av index.html
+Skapade en minimal action - den kräver att tjänsten körs.
+- Triggas vid ändring av index.html och redeployar frontend med hjälp av `--cache-from.`
 
 # OpenShift Guestbook – CI/CD med GitHub Actions
 
