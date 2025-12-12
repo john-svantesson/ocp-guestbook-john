@@ -23,7 +23,7 @@ spec:
           - name: REDIS_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: redis-secret
+                name: guestbook-common-secrets
                 key: REDIS_PASSWORD
         # Redis kräver password i kommandot, därför REQUIRED
         command: ["redis-server", "--requirepass", "$(REDIS_PASSWORD)"]
