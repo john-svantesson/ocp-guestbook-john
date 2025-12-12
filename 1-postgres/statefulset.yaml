@@ -29,33 +29,33 @@ spec:
             - name: POSTGRESQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: guestbook-common-secrets
                   key: POSTGRESQL_USER
             - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: guestbook-common-secrets
                   key: POSTGRESQL_PASSWORD
             - name: POSTGRESQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: guestbook-common-secrets
                   key: POSTGRESQL_DATABASE
             # Backup-variabler för andra image-varianter
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: guestbook-common-secrets
                   key: POSTGRESQL_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: guestbook-common-secrets
                   key: POSTGRESQL_PASSWORD
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: guestbook-common-secrets
                   key: POSTGRESQL_DATABASE
           volumeMounts:
             - name: data
