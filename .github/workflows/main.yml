@@ -65,3 +65,5 @@ jobs:
           oc apply -f 3-backend
           oc apply -f 4-frontend
           oc apply -f 5-route
+      - name: Restart Redis
+        run: oc rollout restart deployment/redis
